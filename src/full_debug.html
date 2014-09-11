@@ -53,7 +53,7 @@
 					
 					g.attachShader(p, k);
 					return g.getShaderInfoLog(k);
-				}
+				};
 				if(!h(0, b('vs').text) && !h(1, b('fs').text)){g.linkProgram(p);}
 				e = g.getProgramParameter(p, g.LINK_STATUS);
 				
