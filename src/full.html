@@ -34,28 +34,24 @@
 		</script>
 		<script>
 			window.onload = function(){
-				var a, b, c, d, e, f, g, p, t, u, v, w, x, y, z;
+				var a, b, c, d, e, f, g, h, p, t, u, v, w, x, y, z;
 				b = function(s){return document.getElementById(s)};
 				w = window;
 				w.addEventListener('keydown', k, true);
 				c = b('c');
-				g = c.getContext('webgl');
 				c.width = x = w.innerWidth;
 				c.height = y = w.innerHeight;
-				v = g.createShader(g.VERTEX_SHADER);
-				g.shaderSource(v, b('vs').text);
-				g.compileShader(v);
-				f = g.createShader(g.FRAGMENT_SHADER);
-				g.shaderSource(f, b('fs').text);
-				g.compileShader(f);
-				if(!g.getShaderParameter(v, g.COMPILE_STATUS)){alert(g.getShaderInfoLog(v)); return;}
-				if(!g.getShaderParameter(f, g.COMPILE_STATUS)){alert(g.getShaderInfoLog(f)); return;}
+				g = c.getContext('webgl');
 				p = g.createProgram();
-				g.attachShader(p, v);
-				g.attachShader(p, f);
-				g.linkProgram(p);
-				if(!g.getProgramParameter(p, g.LINK_STATUS)){alert(g.getProgramInfoLog(p)); return;}
-				e = (p != null);
+				h = function(i, j){
+					k = g.createShader(g.VERTEX_SHADER - i);
+					g.shaderSource(k, j);
+					g.compileShader(k);
+					g.attachShader(p, k);
+					return g.getShaderInfoLog(k);
+				}
+				if(!h(0, b('vs').text) && !h(1, b('fs').text)){g.linkProgram(p);}
+				e = g.getProgramParameter(p, g.LINK_STATUS);
 				g.useProgram(p);
 				u = {};
 				u.time = g.getUniformLocation(p, 'time');
