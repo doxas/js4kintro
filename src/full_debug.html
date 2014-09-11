@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script id="fs" type="xs/fs">
+			precision mediump float;
+			uniform float time;
+			uniform vec2  resolution;
+			vec3 hsv(float h, float s, float v){
+				vec4 t = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+				vec3 p = abs(fract(vec3(h) + t.xyz) * 6.0 - vec3(t.w));
+				return v * mix(vec3(t.x), clamp(p - vec3(t.x), 0.0, 1.0), s);
+			}
+			void main(void){
+				vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / max(resolution.x, resolution.y);
+				int j = 0;
+				vec2 x = vec2(-0.345, 0.654);
+				vec2 y = vec2(time * 0.005, 0.0);
+				vec2 z = p;
+				for(int i = 0; i < 360; i++){
+					j++;
+					if(length(z) > 2.0){break;}
+					z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + x + y;
+				}
+				float h = abs(mod(time * 15.0 - float(j), 360.0) / 360.0);
+				gl_FragColor = vec4(hsv(h, 1.0, 1.0), 1.0);
+			}
+		</script>
+		<script id="vs" type="xs/vs">
+			attribute vec3 position;
+			void main(void){
+				gl_Position = vec4(position, 1.0);
+			}
+		</script>
+		<script>
+			window.onload = function(){
+				var a, b, c, d, e, f, g, h, p, t, u, v, w, x, y, z;
+				b = function(s){return document.getElementById(s)};
+				w = window;
+				w.addEventListener('keydown', k, true);
+				c = b('c');
+				c.width = x = w.innerWidth;
+				c.height = y = w.innerHeight;
+				g = c.getContext('webgl');
+				p = g.createProgram();
+				h = function(i, j){
+					k = g.createShader(g.VERTEX_SHADER - i);
+					g.shaderSource(k, j);
+					g.compileShader(k);
+					
+					// shader compile check
+					if(!g.getShaderParameter(k, g.COMPILE_STATUS)){alert(g.getShaderInfoLog(k));}
+					
+					g.attachShader(p, k);
+					return g.getShaderInfoLog(k);
+				}
+				if(!h(0, b('vs').text) && !h(1, b('fs').text)){g.linkProgram(p);}
+				e = g.getProgramParameter(p, g.LINK_STATUS);
+				
+				// link program check
+				if(!e){alert(g.getProgramInfoLog(p));return;}
+				
+				g.useProgram(p);
+				u = {};
+				u.time = g.getUniformLocation(p, 'time');
+				u.resolution = g.getUniformLocation(p, 'resolution');
+				g.bindBuffer(g.ARRAY_BUFFER, g.createBuffer());
+				g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1,1,0,-1,-1,0,1,1,0,1,-1,0]), g.STATIC_DRAW);
+				a = g.getAttribLocation(p, 'position');
+				g.enableVertexAttribArray(a);
+				g.vertexAttribPointer(a, 3, g.FLOAT, false, 0, 0);
+				g.clearColor(0, 0, 0, 1);
+				z = new Date().getTime();
+				(function(){
+					if(!e){return;}
+					c.width = x = w.innerWidth;
+					c.height = y = w.innerHeight;
+					g.viewport(0, 0, x, y);
+					d = (new Date().getTime() - z) * 0.001;
+					g.clear(g.COLOR_BUFFER_BIT);
+					g.uniform1f(u.time, d);
+					g.uniform2fv(u.resolution, [x, y]);
+					g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
+					g.flush();
+					setTimeout(arguments.callee, 16);
+				})();
+				function k(h){e = (h.keyCode !== 27);}
+			};
+		</script>
+		<style>
+			* {
+				margin:0;
+				padding:0;
+				overflow:hidden;
+			}
+			html,body{
+				height:100%;
+			}
+		</style>
+		<title>your demo title</title>
+	</head>
+	<body>
+		<canvas id="c"></canvas>
+	</body>
+</html>
+
