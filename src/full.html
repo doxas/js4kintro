@@ -39,8 +39,6 @@
 				w = window;
 				w.addEventListener('keydown', k, true);
 				c = b('c');
-				c.width = x = w.innerWidth;
-				c.height = y = w.innerHeight;
 				g = c.getContext('webgl');
 				p = g.createProgram();
 				h = function(i, j){
@@ -74,7 +72,7 @@
 					g.uniform2fv(u.resolution, [x, y]);
 					g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
 					g.flush();
-					setTimeout(arguments.callee, 16);
+					setTimeout(arguments.callee, 33);
 				})();
 				function k(h){e = (h.keyCode !== 27);}
 			};
