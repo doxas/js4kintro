@@ -4,8 +4,9 @@ javascript と WebGL、そして GLSL を用いて行う 4k intro のための�
 
 現状ではひな形となるベースファイルの容量が約 1.3 キロバイトになっています。工夫次第で約 2.7 キロバイトほどフラグメントシェーダのコードが書ける状態です。
 
+リポジトリに含まれるサンプルをオンラインで実行できるリンクが文末にあります。
 
-##イベント開催に向けて仕様その他策定中
+## イベント開催に向けて仕様その他策定中
 
 js4kintro の企画として作品を募集するイベントを考えています。「classic 部門」と制限なしの「nolimit 部門」を開催する方針です。
 
@@ -16,7 +17,7 @@ classic 部門では同じひな形を利用します。このひな形は HTML 
 一方、nolimit 部門には制限はありません。ファイル容量制限なし、HTML や javascript なども独自実装可となっています。
 
 
-##ルール(各部門に共通の仕様)
+## ルール(各部門に共通の仕様)
 
 * 外部ファイルを参照せずに単独で動作すること
 * ライセンスの表記が必要なライブラリやコードを利用していないこと
@@ -25,7 +26,7 @@ classic 部門では同じひな形を利用します。このひな形は HTML 
 * デスクトップ版の、その時点での最新の Chrome と FireFox で同じように動作すること
 
 
-##classic 部門の仕様とルール
+## classic 部門の仕様とルール
 
 * ひな形ファイルを元に作成しファイルサイズが 4096byte 以下であること
 * ひな形ファイルで修正を加えていいのはフラグメントシェーダの部分のみ
@@ -35,18 +36,31 @@ classic 部門では同じひな形を利用します。このひな形は HTML 
 * window.onload で動作開始、ESC キーによって動作を停止します
 
 
-##nolimit 部門の仕様とルール
+## nolimit 部門の仕様とルール
 
 * 無制限とはいっても最低限、WebGL と GLSL を利用して canvas にレンダリングすること
 * 画面に何もレンダリングされない(例えば音声のみなど)は不可
 
 
-##書いてみたくなったら
+## 書いてみたくなったら
 
 src フォルダには、一切省略せずに記述した full 版と通常版のファイルが入っています。
 
 それぞれに、デバッグ用のコードを追加したバージョンが別途付随します。デバッグ用のコードが含まれているバージョンでは、シェーダのコンパイルなどでエラーが起こった場合にその原因をアラートで画面に出力しますので最初のうちはデバッグ版を利用したほうが開発しやすいと思います。
 
 尚、full 版にはプリセットのフラグメントシェーダのコードとして、ジュリア集合が描かれるサンプルが入っています。
+
+
+## オンラインサンプル
+
+オンラインサンプルは、MacBookAir(1.4GHzデュアルコアIntel Core i5+Intel HD Graphics 5000+メモリ8MB+13.3インチ) でも動作を確認しました。スクリーンサイズを 512px 四方の正方形にして実行するとほぼ処理落ちしないで動作しているように見えます。
+
+* [01. orb](http://wgld.org/o/js4kintro/sample/01_orb "orb")
+* [02. ring](http://wgld.org/o/js4kintro/sample/02_ring "ring")
+* [03. flower](http://wgld.org/o/js4kintro/sample/03_flower "flower")
+* [04. noise](http://wgld.org/o/js4kintro/sample/04_noise "noise")
+* [05. raymarching sphere](http://wgld.org/o/js4kintro/sample/05_raymarching_sphere "sphere")
+* [06. raymarching shadow](http://wgld.org/o/js4kintro/sample/06_raymarching_shadow "shadow")
+* [07. simple raytrace](http://wgld.org/o/js4kintro/sample/07_simple_raytrace "raytrace")
 
 
