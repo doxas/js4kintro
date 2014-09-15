@@ -53,7 +53,8 @@ src フォルダには、一切省略せずに記述した full 版と通常版�
 
 ## オンラインサンプル
 
-オンラインサンプルは、MacBookAir(1.4GHzデュアルコアIntel Core i5+Intel HD Graphics 5000+メモリ8MB+13.3インチ) でも動作を確認しました。スクリーンサイズを 512px 四方の正方形にして実行するとほぼ処理落ちしないで動作しているように見えます。
+オンラインサンプルは、Windows7(3.40GHz Intel Corei5-3570K+Intel HD Graphics 4000+メモリ8GB)、また MacBookAir(1.4GHzデュアルコアIntel Core i5+Intel HD Graphics 5000+メモリ8MB+13.3インチ) でも動作を確認しました。スクリーンサイズを 512px 四方の正方形にして実行するとほぼ処理落ちしないで動作しているように見えます。ただスクリーンサイズの一辺が 1000 を超えるくらいになると、前述のマシンでは少々処理落ちが目立つようになります(特にレイマーチング系)。
+
 
 * [01. orb](http://wgld.org/o/js4kintro/sample/01_orb "orb")
 * [02. ring](http://wgld.org/o/js4kintro/sample/02_ring "ring")
