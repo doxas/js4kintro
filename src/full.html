@@ -72,7 +72,7 @@
 					g.uniform2fv(u.resolution, [x, y]);
 					g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
 					g.flush();
-					setTimeout(arguments.callee, 33);
+					requestAnimationFrame(arguments.callee);
 				})();
 				function k(h){e = (h.keyCode !== 27);}
 			};
