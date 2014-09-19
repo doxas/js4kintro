@@ -7,10 +7,9 @@ window.onload = function(){
 	editor.commands.addCommand({
 		name: 'cmd',
 		bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-		exec: function(editor){
-			init();
-		}
+		exec: function(editor){init();}
 	});
+	editor.getSession().setUseSoftTabs(false);
 	bid('editor').style.fontSize='14px';
 	ax = new Ajax(function(){
 		var r = ax.getResponse();

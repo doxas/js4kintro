@@ -83,7 +83,7 @@ color: #66FF00\
 color: #44B4CC\
 }\
 .ace-vibrant-ink .ace_comment {\
-color: #555555\
+color: #666666\
 }\
 .ace-vibrant-ink .ace_entity.ace_other.ace_attribute-name {\
 font-style: italic;\
