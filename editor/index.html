@@ -12,13 +12,18 @@
 	<div id="left">
 		<canvas id="canvas"></canvas>
 		<div id="console">
+			<ul>
+				<li>シェーダの文字数:</li>
+				<li><span id="fsCount">685</span></li>
+				<li>HTML全体の文字数:</li>
+				<li><span id="htmlCount">1941</span></li>
+				<li><input id="button" type="button" value="download" disabled></li>
+			</ul>
 			<h3>操作</h3>
 			<p>Ctr + s || Command + s ： リロード(エディタにフォーカス中)</p>
 			<p>Esc ： アニメーションの停止</p>
 			<h3>ダウンロード</h3>
-			<p>ダウンロードボタンを押すと、エディタの内容をフラグメントシェーダのソースコードとして当て込んだ HTML ファイルをダウンロードできます。</p>
-			<p>文法的に正しいかは厳密にはチェックしていませんので注意してください。</p>
-			<p style="text-align: right;"><input id="button" type="button" value="download" disabled></p>
+			<p>ダウンロードボタンから HTML ファイルをダウンロードできます。文法チェックはしてません。</p>
 		</div>
 	</div>
 	<div id="right">
