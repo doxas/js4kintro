@@ -6,6 +6,8 @@ javascript と WebGL、そして GLSL を用いて行う 4k intro のための�
 
 [オンライン js4kintro エディタ](http://jp.wgld.org/js4kintro/editor/ "オンライン js4kintro エディタ")
 
+なお、Twitter のハッシュタグはそのままですが #js4kintro です！
+
 
 ## イベントやります(気軽に参加してね！)
 
