@@ -9,8 +9,12 @@ window.onload = function(){
 		bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
 		exec: function(editor){init();}
 	});
+	editor.getSession().on('change', function(e){
+		bid('fsCount').textContent = editor.getValue().length;
+		bid('htmlCount').textContent = editor.getValue().length + 1256;
+	});
 	editor.getSession().setUseSoftTabs(false);
-	bid('editor').style.fontSize='14px';
+	bid('editor').style.fontSize = '14px';
 	ax = new Ajax(function(){
 		var r = ax.getResponse();
 		if(r != null){
