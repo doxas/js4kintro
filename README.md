@@ -16,6 +16,8 @@ classic 部門では同じひな形を利用します。このひな形は HTML 
 
 一方、nolimit 部門には制限はありません。ファイル容量制限なし、HTML や javascript なども独自実装可となっています。こちらも運営が受け取り公開する予定ですが、作者の実行環境(開発環境)で正しい動作をしている状態でのキャプチャ画像を撮っていただく場合があるかもしれません。※ nolimit の場合は特に実行環境を限定するケースが多くなると思うので
 
+作品の投稿はメールにて受け付ける予定です。作品を添付して admin[at]wgld.org まで送ってください。
+
 
 ## ルール(各部門に共通の仕様)
 
@@ -66,3 +68,4 @@ src ディレクトリには、一切省略せずに記述した full 版と通�
 * [07. simple raytrace](http://wgld.org/o/js4kintro/sample/07_simple_raytrace "raytrace")
 
 
+その他、[GLSL Sandbox](http://glslsandbox.com/) や、手前味噌ですが [wgld.org](http://wgld.org) などを参考にするといいかもしれません。
