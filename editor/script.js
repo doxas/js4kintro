@@ -15,6 +15,7 @@ window.onload = function(){
 	});
 	editor.getSession().setUseSoftTabs(false);
 	bid('editor').style.fontSize = '14px';
+	setEditorSource();
 	ax = new Ajax(function(){
 		var r = ax.getResponse();
 		if(r != null){
@@ -27,11 +28,41 @@ window.onload = function(){
 		}
 	});
 	ax.initialize();
-	var button = bid('button');
-	button.addEventListener('click', downloadTemplete, true);
-	win = window; win.addEventListener('keydown', keydown, true);
+	var downloadButton = bid('button');
+	downloadButton.addEventListener('click', downloadTemplete, true);
+	var shortenButton = bid('shorten');
+	shortenButton.addEventListener('click', shorten, true);
+	var uriBox = bid('uri');
+	uriBox.addEventListener('click', function() {
+		uriBox.focus();
+		uriBox.select();
+	});
+	win = window;
+	win.addEventListener('keydown', keydown, true);
+	win.addEventListener('hashchange', setEditorSource, true);
 	run = false;
 };
+
+function setShortenUri(uri){
+	bid('uri').value = uri;
+}
+
+function shorten(){
+	bid('shorten').disabled = true;
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener("load", function(){ setShortenUri(JSON.parse(xhr.response).id); }, true);
+	xhr.open("POST", "https://www.googleapis.com/urlshortener/v1/url");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.send(JSON.stringify({ longUrl: window.location.href }));
+}
+
+function setEditorSource(){
+	var fSource = decodeURIComponent(window.location.hash);
+	fSource = fSource.slice(1);
+	if(fSource && editor.getValue() !== fSource) {
+	  editor.setValue(fSource)
+	}
+}
 
 function downloadTemplete(){
 	bid('button').disabled = true;
@@ -42,6 +73,8 @@ function init(){
 	var e, k;
 	run = false;
 	bid('button').disabled = true;
+	bid('shorten').disabled = true;
+	bid('uri').value = "";
 	if(!canvas){canvas = bid('canvas');}
 	if(!gl){gl = canvas.getContext('webgl');}
 	canvas.width = 512;
@@ -49,6 +82,10 @@ function init(){
 	prg = gl.createProgram();
 	var vSource = 'attribute vec3 p;void main(){gl_Position=vec4(p,1.);}';
 	var fSource = editor.getValue();
+
+	var encoded = encodeURIComponent(fSource);
+	window.location.hash = encoded;
+
 	if(!shader(0, vSource) && !shader(1, fSource)){
 		gl.linkProgram(prg);
 	}else{
@@ -59,6 +96,7 @@ function init(){
 	gl.useProgram(prg);
 	run = true;
 	bid('button').disabled = false;
+	bid('shorten').disabled = false;
 	render();
 	function shader(i, j){
 		k = gl.createShader(gl.VERTEX_SHADER - i);
