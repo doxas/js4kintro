@@ -53,14 +53,20 @@ html, body {
 	display: inline-block;
 }
 
+#left #console li.half {
+	min-width: 300px;
+	display: inline-block;
+}
+
 #left #console #fsCount, #left #console #htmlCount {
 	color: goldenrod;
 	font-family: 'consolas', monospace;
 	font-size: 15px;
 }
 
-#left #console #button {
-	padding: 3px 10px;
+#button, #shorten, #bStart, #bStop {
+	margin: 0px 5px 0px 0px;
+	padding: 0px 10px;
 }
 
 #right {

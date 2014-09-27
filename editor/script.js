@@ -6,7 +6,7 @@ window.onload = function(){
 	editor.getSession().setMode("ace/mode/glsl");
 	editor.commands.addCommand({
 		name: 'cmd',
-		bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+		bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
 		exec: function(editor){init();}
 	});
 	editor.getSession().on('change', function(e){
@@ -30,10 +30,14 @@ window.onload = function(){
 	ax.initialize();
 	var downloadButton = bid('button');
 	downloadButton.addEventListener('click', downloadTemplete, true);
+	var runButton = bid('bStart');
+	runButton.addEventListener('click', init, true);
+	var stopButton = bid('bStop');
+	stopButton.addEventListener('click', function(){run = false;}, true);
 	var shortenButton = bid('shorten');
 	shortenButton.addEventListener('click', shorten, true);
 	var uriBox = bid('uri');
-	uriBox.addEventListener('click', function() {
+	uriBox.addEventListener('click', function(){
 		uriBox.focus();
 		uriBox.select();
 	});
@@ -50,17 +54,18 @@ function setShortenUri(uri){
 function shorten(){
 	bid('shorten').disabled = true;
 	var xhr = new XMLHttpRequest();
-	xhr.addEventListener("load", function(){ setShortenUri(JSON.parse(xhr.response).id); }, true);
+	xhr.addEventListener("load", function(){setShortenUri(JSON.parse(xhr.response).id);}, true);
 	xhr.open("POST", "https://www.googleapis.com/urlshortener/v1/url");
 	xhr.setRequestHeader("Content-Type", "application/json");
-	xhr.send(JSON.stringify({ longUrl: window.location.href }));
+	xhr.send(JSON.stringify({longUrl: window.location.href}));
 }
 
 function setEditorSource(){
 	var fSource = decodeURIComponent(window.location.hash);
-	fSource = fSource.slice(1);
-	if(fSource && editor.getValue() !== fSource) {
-	  editor.setValue(fSource)
+	fSource = fSource.slice(1).replace(/\r/, '');
+	if(fSource && editor.getValue() !== fSource){
+		editor.setValue(fSource);
+		editor.gotoLine(1);
 	}
 }
 
@@ -81,11 +86,9 @@ function init(){
 	canvas.height = 512;
 	prg = gl.createProgram();
 	var vSource = 'attribute vec3 p;void main(){gl_Position=vec4(p,1.);}';
-	var fSource = editor.getValue();
-
+	var fSource = editor.getValue().replace(/\r/gi, '');
 	var encoded = encodeURIComponent(fSource);
 	window.location.hash = encoded;
-
 	if(!shader(0, vSource) && !shader(1, fSource)){
 		gl.linkProgram(prg);
 	}else{
