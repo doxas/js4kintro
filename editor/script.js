@@ -66,6 +66,7 @@ function setEditorSource(){
 	if(fSource && editor.getValue() !== fSource){
 		editor.setValue(fSource);
 		editor.gotoLine(1);
+		init();
 	}
 }
 
