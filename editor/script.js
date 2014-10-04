@@ -44,7 +44,6 @@ window.onload = function(){
 	win = window;
 	win.addEventListener('keydown', keydown, true);
 	win.addEventListener('hashchange', setEditorSource, true);
-	run = false;
 };
 
 function setShortenUri(uri){
@@ -66,6 +65,7 @@ function setEditorSource(){
 	if(fSource && editor.getValue() !== fSource){
 		editor.setValue(fSource);
 		editor.gotoLine(1);
+		init();
 	}
 }
 
