@@ -29,7 +29,7 @@ background: rgb(102, 82, 0)\
 }\
 .ace-vibrant-ink .ace_marker-layer .ace_bracket {\
 margin: -1px 0 0 -1px;\
-border: 1px solid #404040\
+border: 1px solid #909090\
 }\
 .ace-vibrant-ink .ace_marker-layer .ace_active-line {\
 background: #333333\
