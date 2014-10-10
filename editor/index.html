@@ -48,7 +48,7 @@ vec3 hsv(float h, float s, float v){
 }
 
 void main(void){
-	vec2 p = (gl_FragCoord.xy * 2.0 - r) / max(r.x, r.y);
+	vec2 p = (gl_FragCoord.xy * 2.0 - r) / min(r.x, r.y);
 	int j = 0;
 	vec2 x = vec2(-0.345, 0.654);
 	vec2 y = vec2(t * 0.005, 0.0);
