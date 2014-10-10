@@ -97,10 +97,9 @@ function init(){
 	e = gl.getProgramParameter(prg, gl.LINK_STATUS);
 	if(!e){alert(gl.getProgramInfoLog(prg));return;}
 	gl.useProgram(prg);
-	run = true;
 	bid('button').disabled = false;
 	bid('shorten').disabled = false;
-	render();
+	setTimeout(function(){run = true; render();}, 100);
 	function shader(i, j){
 		k = gl.createShader(gl.VERTEX_SHADER - i);
 		gl.shaderSource(k, j);
