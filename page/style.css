@@ -6,54 +6,39 @@
 }
 
 html, body {
-	background-color: #fcfcfc;
-	color: gray;
-	font-family: 'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
-	font-size: 9pt;
-	line-height: 175%;
+	background-color: #fcfcff;
+	color: #668;
+	font-family: 'Play','Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
+	font-size: 12pt;
+	line-height: 2;
 	text-align: center;
 	width: 100%;
 	height: 100%;
 }
 
 a, a:visited {
-	color: maroon;
-	text-decoration: none;
-}
-
-a:hover, a:active {
-	color: tomato;
+	color: dodgerblue;
 	text-decoration: underline;
 }
 
+a:hover, a:active {
+	color: orchid;
+}
+
 h1 {
-	font-family: "consolas";
-	font-size: 50pt;
+	font-size: 64pt;
 	margin: 30px 0px;
+	text-shadow: 0px 0px 5px #99f;
 }
 
 h2 {
-	font-size: 10pt;
-	margin: 10px 0px;
+	font-size: 24pt;
+	text-shadow: 0px 0px 5px #99f;
 }
 
 h3 {
-	background-color: gray;
-	color: whitesmoke;
-	font-family: "consolas";
 	font-size: 14pt;
-	line-height: 30px;
-	padding: 0px 10px;
-	height: 30px;
-}
-
-h4 {
-	border-left: 10px solid darkgray;
-	font-size: 11pt;
-	font-style: normal;
-	font-weight: bold;
-	margin: 5px 0px 10px;
-	padding: 0px 5px;
+	margin: 30px 0px;
 }
 
 p {
@@ -66,19 +51,36 @@ em, strong {
 }
 
 img {
-	border-radius: 5px;
+	border: 0px;
 }
 
 ul {
-	list-style: circle;
+	text-align: left;
+	list-style: none;
 }
 
 li {
-	margin: 5px 0px;
+	margin-left: 15px;
 }
 
 code {
-	font-family: "consolas";
+	font-family: 'consolas','monaco',monospace;
+}
+
+header {
+	width: 100%;
+}
+
+section {
+	margin: 50px auto;
+	max-width: 1000px;
+}
+
+footer {
+	color: #99c;
+	font-size: 12pt;
+	margin: 50px 0px 0px;
+	width: 100%;
 }
 
 #wrap {
@@ -86,46 +88,64 @@ code {
 	height: 100%;
 }
 
-.dummy {
-	height: 100%;
-	vertical-align: middle;
-	display: inline-block;
+#screen {
+	background-color: #333;
+	width: 100%;
+	height: 512px;
+	box-shadow: 0px 0px 30px 15px #eef;
+}
+
+#screen #canvas {
+	margin: 0px auto;
+	width: 512px;
+	height: 512px;
+}
+
+#screen #menu {
+	border: 3px solid #eef;
+	border-radius: 5px;
+	width: 100px;
+	height: 30px;
+	position: absolute;
+	top: 465px;
+	right: 20px;
+}
+
+#screen #menu a {
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 3px;
+	color: #eef;
+	line-height: 24px;
+	text-decoration: none;
+	margin: 3px;
+	width: 94px;
+	height: 24px;
+	display: block;
+}
+
+#screen #menu a:hover {
+	background-color: rgba(225, 225, 255, 0.75);
 }
 
 #content {
-	margin: auto;
-	vertical-align: middle;
+	width: 100%;
+}
+
+.entry {
+	border-radius: 10px;
+	padding: 0px 0px 10px;
+	margin: 20px 25px 50px;
+	width: 280px;
 	display: inline-block;
+	box-shadow: 0px 0px 10px 0px #eef inset;
 }
 
-#title {
-	text-shadow: 1px 1px 1px white;
-	margin: 0px 0px 30px;
-}
-
-#blocks {
-	text-align: left;
-	max-width: 550px;
-}
-
-#footer {
-	color: silver;
-	font-family: "consolas";
-	font-size: 9pt;
-	margin: 20px auto;
-}
-.block {
-	margin: 10px;
+.entry img {
+	margin: 0px auto;
 	width: 250px;
 	height: 250px;
-	vertical-align: middle;
-	display: inline-block;
+	cursor: pointer;
+	box-shadow: 0px 0px 5px 0px #99f;
 }
 
-.blockContents {
-	text-align: left;
-	margin: 10px 0px;
-	padding: 0px 10px;
-	height: 200px;
-	overflow: auto;
-}
+
