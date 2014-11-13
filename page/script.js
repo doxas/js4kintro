@@ -125,13 +125,13 @@ function stopShader(eve){
 function scrollToTop(){
 	var x = 0;
 	var y = document.documentElement.scrollTop || document.body.scrollTop;
-	var l = 40;
+	var l = 30;
 	if(y == 0){return;}
 	(function(){
 		x++;
 		var ty = easeOutCubic(x, 0, y, l);
 		window.scroll(0, y - ty);
-		if(x < l){setTimeout(arguments.callee, 30);}
+		if(x < l){requestAnimationFrame(arguments.callee);}
 	})();
 }
 
