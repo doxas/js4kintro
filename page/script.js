@@ -59,7 +59,13 @@ function shader(source){
 	g.vertexAttribPointer(a, 3, g.FLOAT, false, 0, 0);
 	g.clearColor(0, 0, 0, 1);
 	z = new Date().getTime();
-	if(!e){return;}
+	if(!e){
+		alert('shader compile is failed');
+		e = document.getElementById('menuButton');
+		e.textContent = 'run';
+		run = false;
+		return;
+	}
 	(function(){
 		c.width = c.height = x = y = 512;
 		g.viewport(0, 0, x, y);
