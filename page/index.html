@@ -18,18 +18,18 @@
 	<div id="wrap">
 		<div id="screen">
 			<canvas id="canvas"></canvas>
-			<div id="menu"><a href="javascript:void(0);">stop</a></div>
+			<div id="menu"><a href="javascript:void(0);" id="menuButton">run</a></div>
 		</div>
 		<div id="content">
 			<header>
 				<h1>js <span style="color: dodgerblue">4</span>k intro</h1>
 				<p><img src="image/logo.png" width="64" height="64" alt=""></p>
 			</header>
-			<section>
+			<section id="section">
 				<h2>entries in the 2014</h2>
 				<div class="entry">
 					<h3>glsl 4k intro</h3>
-					<p><img src="image/anpan.jpg" width="250" height="250" alt=""></p>
+					<p><img id="image000" src="image/anpan.jpg" width="250" height="250" alt=""></p>
 					<ul>
 						<li>size: 4096 bytes</li>
 						<li>source: <a href="#" target="_blank">@h_doxas</a></li>
@@ -38,7 +38,7 @@
 				</div>
 				<div class="entry">
 					<h3>glsl 4k intro</h3>
-					<p><img src="image/anpan.jpg" width="250" height="250" alt=""></p>
+					<p><img id="image001" src="image/anpan.jpg" width="250" height="250" alt=""></p>
 					<ul>
 						<li>size: 4096 bytes</li>
 						<li>source: <a href="#" target="_blank">@h_doxas</a></li>
@@ -47,7 +47,7 @@
 				</div>
 				<div class="entry">
 					<h3>glsl 4k intro</h3>
-					<p><img src="image/anpan.jpg" width="250" height="250" alt=""></p>
+					<p><img id="image002" src="image/anpan.jpg" width="250" height="250" alt=""></p>
 					<ul>
 						<li>size: 4096 bytes</li>
 						<li>source: <a href="#" target="_blank">@h_doxas</a></li>
@@ -62,5 +62,9 @@
 			</footer>
 		</div>
 	</div>
+	<input id="targetSource" type="hidden" value="0">
+	<script id="000" type="x-shader/x-fragment">precision mediump float;uniform float t;uniform vec2 r;void main(){vec2 p=(gl_FragCoord.xy*2.-r)/max(r.x,r.y);float u=abs(sin((atan(p.y,p.x)-length(p)+t)*10.)*.5)+.2;float t=.01/abs(u-length(p));gl_FragColor=vec4(vec3(t),1.);}</script>
+	<script id="001" type="x-shader/x-fragment">precision mediump float;uniform float t;uniform vec2 r;const vec3 cPos=vec3(0.,5.,5.);const vec3 cDir=vec3(0.,-.707,-.707);const vec3 cUp=vec3(0., .707,-.707);const vec3 lightDir=vec3(0.,1.,0.);float distFuncFloor(vec3 p){return dot(p,vec3(0.,1.,0.))+2.;}float distFuncTorus(vec3 p){const vec2 t=vec2(2.5,.75);vec2 r=vec2(length(p.xz)-t.x,p.y);return length(r)-t.y;}float distFunc(vec3 p){float d1=distFuncTorus(p);float d2=distFuncFloor(p);return min(d1,d2);}vec3 genNormal(vec3 p){float d=.0001;return normalize(vec3(distFunc(p+vec3(d,0.,0.))-distFunc(p+vec3(-d,0.,0.)),distFunc(p+vec3(0.,d,0.))-distFunc(p+vec3(0.,-d,0.)),distFunc(p+vec3(0.,0.,d))-distFunc(p+vec3(0.,0.,-d))));}float genShadow(vec3 ro,vec3 rd){float h=0.;float c=0.;float r=1.;float shadowCoef=.5;for(float t=0.;t<50.;t++){h=distFunc(ro+rd*c);if(h<.001){return shadowCoef;break;}r=min(r,h*16./c);c+=h;}return 1.-shadowCoef+r*shadowCoef;}void main(void){vec2 p=(gl_FragCoord.xy*2.-r)/max(r.x,r.y);vec3 cSide=cross(cDir,cUp);float targetDepth=1.;vec3 ray=normalize(cSide*p.x+cUp*p.y+cDir*targetDepth);vec3 light=normalize(lightDir-vec3(sin(t),0.,0.));float tmp,dist;int j;tmp=0.;vec3 dPos=cPos;for(int i=0;i<128;i++){j=i;dist=distFunc(dPos);if(abs(dist)<.001){break;}tmp += dist;dPos=cPos+tmp*ray*.9;}vec3 color;float shadow=1.;if(abs(dist)<.001){vec3 normal=genNormal(dPos);vec3 halfLE=normalize(light-ray);float diff=clamp(dot(light,normal),.1,1.)*.75;float spec=pow(clamp(dot(halfLE,normal),0.,1.),50.);shadow=genShadow(dPos+normal*.001,light);float u=1.-floor(mod(dPos.x,2.))*.5;float v=1.-floor(mod(dPos.z,2.))*.5;if((u==1.&&v<1.)||(u<1.&&v==1.)){diff*=.7;}color=diff+vec3(spec);}else{color=vec3(0.);}gl_FragColor=vec4(color*shadow,1.);}</script>
+	<script id="002" type="x-shader/x-fragment">ccc</script>
 </body>
 </html>
