@@ -98,7 +98,7 @@ function runShader(eve){
 
 function stopShader(eve){
 	var e, f, g;
-	if(eve != null && eve.keyCode === 0){
+	if((eve != null && eve.keyCode === 0) || (eve.keyCode == null)){
 		e = eve.currentTarget;
 		if(e.textContent === 'run'){
 			f = document.getElementById('targetSource').value;

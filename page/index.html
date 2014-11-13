@@ -15,6 +15,14 @@
 	<title>javascript 4k intro</title>
 </head>
 <body>
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&appId=1526484404235143&version=v2.0";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 	<div id="wrap">
 		<div id="screen">
 			<canvas id="canvas"></canvas>
@@ -53,6 +61,19 @@
 						<li>source: <a href="http://goo.gl/tje46d" target="_blank">preview</a></li>
 						<li>author: <a href="https://twitter.com/h_doxas" target="_blank">@h_doxas</a></li>
 					</ul>
+				</div>
+				<h2>share</h2>
+				<div id="social">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jp.wgld.org/js4kintro/" data-hashtags="js4kintro">Tweet</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					<a href="http://b.hatena.ne.jp/entry/http://jp.wgld.org/js4kintro/" class="hatena-bookmark-button" data-hatena-bookmark-title="js 4k intro" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="en" title="このエントリーをはてなブックマークに追加">
+						<img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;">
+					</a>
+					<script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+					<div class="fb-like" data-href="http://jp.wgld.org/js4kintro/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false">
+					</div>
+					<a data-pocket-label="pocket" data-pocket-count="horizontal" class="pocket-btn" data-lang="en"></a>
+					<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
 				</div>
 				<h2>about</h2>
 				<p>HTML + javaScript + glsl demo under 4k.</p>

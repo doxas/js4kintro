@@ -149,4 +149,20 @@ footer {
 	box-shadow: 0px 0px 5px 0px #99f;
 }
 
+#social {
+	margin: 10px auto 50px;
+	padding-left: 55px;
+}
 
+.fb_iframe_widget span {
+	vertical-align: top !important;
+}
+
+.fb_iframe_widget {
+	margin-left: 35px !important;
+}
+
+.pocket-btn {
+	margin-left: 35px;
+	display: inline-block;
+}
