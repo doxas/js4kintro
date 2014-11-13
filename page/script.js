@@ -1,7 +1,7 @@
 var run, entryCount, entrySource;
 
 window.onload = function(){
-	var e, i, s, t;
+	var e, i, r, s, t;
 	var eEntries = document.getElementById('section').childNodes;
 	entryCount = 0;
 	entrySource = new Array();
@@ -24,8 +24,11 @@ window.onload = function(){
 	window.addEventListener('keydown', stopShader, true);
 	e = document.getElementById('menuButton');
 	e.addEventListener('click', stopShader, true);
+	e = document.getElementById('targetSource');
 	run = false;
-	shader(entrySource[0]);
+	r = Math.floor(Math.random() * entryCount);
+	e.value = r;
+	shader(entrySource[r]);
 };
 
 function zeroPadding(num, range){
