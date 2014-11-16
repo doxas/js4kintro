@@ -11,6 +11,8 @@ javascript と WebGL、そして GLSL を用いて行う 4k intro のための�
 
 ## 作品投稿イベントやります(気軽に参加してね！)
 
+[javascript 4k intro 作品掲載 特設ページ](http://jp.wgld.org/js4kintro/)
+
 js4k intro では WebGL + GLSL で記述された 4k intro 作品を募集しています！
 「classic 部門」と制限なしの「nolimit 部門」の二つの部門を開催する方針で、ファイルの提出期限は今のところ **11月末日** を予定しています。
 
