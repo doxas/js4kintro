@@ -14,7 +14,7 @@ javascript と WebGL、そして GLSL を用いて行う 4k intro のための�
 [javascript 4k intro 作品掲載 特設ページ](http://jp.wgld.org/js4kintro/)
 
 js4k intro では WebGL + GLSL で記述された 4k intro 作品を募集しています！
-「classic 部門」と制限なしの「nolimit 部門」の二つの部門を開催する方針で、ファイルの提出期限は今のところ **11月末日** を予定しています。
+「classic 部門」と制限なしの「nolimit 部門」の二つの部門を開催する方針で、ファイルの提出期限は今のところ ~~11月末日を予定~~ **12月末日** を予定しています。
 
 classic 部門では同じひな形を利用します。このひな形は HTML や javascript、CSS がすべて含まれており、その状態で最適化されて 1.3KB の容量です。つまり残りの約 2.7KB を GLSL のフラグメントシェーダに割り当てることができます。
 
@@ -64,6 +64,7 @@ classic 部門では同じひな形を利用します。このひな形は HTML 
 
 また、[オンライン js4kintro エディタ](http://jp.wgld.org/js4kintro/editor/ "オンライン js4kintro エディタ")を利用すれば、オンラインでシェーダを記述することができます。そのまま記述したシェーダを組み込んだ状態のファイルをダウンロードすることもできますので、気軽にチャレンジしてみてください。
 
+作品が完成したら、メールなどで送っていただければ [javascript 4k intro 作品掲載 特設ページ](http://jp.wgld.org/js4kintro/)にて随時公開していきます。
 
 ## オンラインサンプル
 
