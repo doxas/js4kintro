@@ -80,6 +80,24 @@
 						<li>author: <a href="https://twitter.com/yuza_ja" target="_blank">@yuza_ja</a></li>
 					</ul>
 				</div>
+				<div class="entry">
+					<h3>GLSL Clock</h3>
+					<p><img id="image005" src="image/glslclock.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 4052 bytes</li>
+						<li>source: <a href="http://goo.gl/Fma9Cx" target="_blank">preview</a></li>
+						<li>author: k_ryo</li>
+					</ul>
+				</div>
+				<div class="entry">
+					<h3>dancing sphere</h3>
+					<p><img id="image006" src="image/dancingsphere.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 4096 bytes</li>
+						<li>source: <a href="http://goo.gl/jdHSuk" target="_blank">preview</a></li>
+						<li>author: <a href="https://twitter.com/yuza_ja" target="_blank">@yuza_ja</a></li>
+					</ul>
+				</div>
 				<h2>share</h2>
 				<div id="social">
 					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jp.wgld.org/js4kintro/" data-hashtags="js4kintro">Tweet</a>
@@ -367,6 +385,161 @@ void main(void)
 	c += pow(abs(dot(n, vec3(0.7))), 80.0);
 	vec3 col = vec3(1.0-g*0.2, 1.2-g*0.3, 1.7);
 	gl_FragColor = vec4(col*pow(c, 1.0/2.2), 1.0);
+}</script>
+	<script id="005" type="x-shader/x-fragment">#define PI 3.14159265
+precision mediump float;uniform float t;uniform vec2  r;
+vec2 rot(vec2 p,float a){float c=cos(a),s=sin(a);return p*mat2(c,-s,s,c);}
+bool xnor(bool a,bool b){return !(a^^b);}
+bool alleq(bool a,bool b,bool c){return xnor(a,b)&&xnor(b,c)&&xnor(c,a);}
+bool rect(vec2 p,vec2 wh){return abs(p.x)<abs(wh.x)&&abs(p.y)<abs(wh.y);}
+bool cir(vec2 p,float r){return length(p)<r;}
+bool tragl(vec2 p,vec2 a,vec2 b,vec2 c){return alleq(cross(vec3(b-a,0.),vec3(p-b,0.)).z<0.,cross(vec3(c-b,0.),vec3(p-c,0.)).z<0.,cross(vec3(a-c,0.),vec3(p-a,0.)).z<0.);}
+bool digNF(vec2 p){return rect(p,vec2(.025,.075))||tragl(p,vec2(.025,.075),vec2(-.025,.075),vec2(.0,.1))||tragl(p,vec2(.025,-.075),vec2(-.025,-.075),vec2(.0,-.1));}
+bool digN(vec2 p,int n){float D=.005;bool a=digNF(p-vec2(.1+D,.1+D)),b=digNF(p-vec2(.1+D,-.1-D)),c=digNF(p-vec2(-.1-D,.1+D)),d=digNF(p-vec2(-.1-D,-.1-D)),e=digNF(rot(p,PI/2.)),f=digNF(rot(p-vec2(0.,.2+2.*D),PI/2.)),g=digNF(rot(p+vec2(0.,.2+2.*D),PI/2.));if(n==0){return a||b||c||d||f||g;}if(n==1){return a||b;}if(n==2){return a||d||e||f||g;}if(n==3){return a||b||e||f||g;}if(n==4){return a||b||c||e;}if(n==5){return b||c||e||f||g;}if(n==6){return b||c||d||e||f||g;}if(n==7){return a||b||f;}if(n==8){return a||b||c||d||e||f||g;}if(n==9){return a||b||c||e||f||g;}return false;}
+bool colon(vec2 p){return rect(p*3.-vec2(0.,.3),vec2(.1))||rect(p*3.-vec2(0.,-.3),vec2(.1));}
+float calcAngInSec(){return(t/1.)*(PI/30.);}
+float calcAngInMin(){return(t/60.)*(PI/30.);}
+float calcAngInHor(){return(t/3600.)*(PI/6.);}
+float getHrs(){return mod(floor(t/3600.),24.);}
+float getMns(){return mod(floor(t/60.),60.);}
+float getScs(){return mod(floor(t),60.);}
+void main(){
+	vec2 p=(gl_FragCoord.xy*2.-r)/min(r.x,r.y);
+	float destC=cir(p,.9)^^cir(p,.85)?1.:0.;
+	int plots=12;
+	for(int i=0;i>=0;i++){
+		destC+=(rect(rot(p,float(i)*(PI/float(plots/2)))-vec2(0.,.7),vec2(.015,.075)))?1.:0.;
+		if(i>plots)break;
+	}
+	plots=60;
+	for(int i=0;i>=0;i++){
+		destC+=(rect(rot(p,float(i)*(PI/float(plots/2)))-vec2(0.,.75),vec2(.015,.02)))?1.:0.;
+		if(i>plots)break;
+	}
+	destC+=cir(p,.02)?1.:0.;
+	destC+=rect(rot(p,calcAngInSec())-vec2(.0,.35),vec2(.0075,.35))?1.:0.;
+	destC+=rect(rot(p,calcAngInMin())-vec2(.0,.3),vec2(.01,.3))?1.:0.;
+	destC+=rect(rot(p,calcAngInHor())-vec2(.0,.2),vec2(.01,.2))?1.:0.;
+
+	float digT=0.;
+
+	digT+=digN(p*3.-vec2(-1.2,-1.),int(getHrs()/10.))?1.:0.;
+	digT+=digN(p*3.-vec2(-.8,-1.),int(mod(getHrs(),10.)))?1.:0.;
+	digT+=colon(p*3.-vec2(-.5,-1.))?1.:0.;
+	digT+=digN(p*3.-vec2(-.2,-1.),int(getMns()/10.))?1.:0.;
+	digT+=digN(p*3.-vec2(.2,-1.),int(mod(getMns(),10.)))?1.:0.;
+	digT+=colon(p*3.-vec2(.5,-1.))?1.:0.;
+	digT+=digN(p*3.-vec2(.8,-1.),int(getScs()/10.))?1.:0.;
+	digT+=digN(p*3.-vec2(1.2,-1.),int(mod(getScs(),10.)))?1.:0.;
+
+	gl_FragColor=vec4(vec3(digT+destC),1.);
+}</script>
+	<script id="006" type="x-shader/x-fragment">precision mediump float;
+uniform vec2 r;
+uniform float t;
+
+vec3 O=vec3(1.);
+vec3 Z=vec3(0.);
+vec3 sunDir, op[8], oc[8];
+float os[8];
+int x[17];
+
+int raytrace( int mode, inout vec3 org, inout vec3 dir, out vec3 hit, out vec3 norm, out vec3 col, out vec3 dc )
+{
+	col = O; dc = Z;
+	for(int re=0; re<3; re++) {
+		vec3 c, h, n;
+		int hi = -1;
+		float minv = 100.0;
+		for(int i=0; i<8; i++) {
+			vec3 diff = op[i] - org;
+			float b = dot(diff, dir);
+			float f = b*b + os[i]*os[i] - dot(diff, diff);
+			if (f < 0.0) continue;
+			float v = b - sqrt(f);
+			if (v < 0.0) continue;
+			if (mode>0) return 1;
+			if ((v < minv) && (org.y + dir.y * v > 0.0)) {
+				minv = v; hi = i;
+				h = org + dir * (v+0.001);
+				n = normalize( (h - op[i]) / os[i] );
+				c = oc[i];
+			}
+		}
+		if (hi < 0) return 0;
+		if (re == 0) { hit = h; norm = n; dc = c; }
+		col *= c * (1.1+dot(dir,n));
+		org = h + n * 0.0001;
+		dir = normalize( reflect(dir,n) );
+	}
+}
+
+float map( vec2 p )
+{
+	float v=0.;
+	int iy = int(mod(floor(p.x-1.5), 20.));
+	for(int i=0; i<17; i++) if (i==iy) { v = float(x[i]); break; }
+	return mod(floor(v*pow(0.5,mod(floor(p.y*-1.), 10.))), 2.);
+}
+
+vec3 core( vec3 org, vec3 dir )
+{
+	vec3 hit, norm, col, dc, q;
+	raytrace( 0, org, dir, hit, norm, col, dc );
+	if (dir.y >= 0.0) {
+		float l = max(dot(dir, sunDir), 0.0);
+		col *= vec3(pow(l, 99.9) * 50.0);
+	} else {
+		org += sunDir*0.001 - org.y / dir.y * dir;
+		if (raytrace( 1, org, sunDir, q, q, q, q ) > 0) col *= 0.1;
+		col *= clamp( 0.4 * mod(floor(0.1*org.x)+floor(0.1*org.z), 2.0), 0.1, -dir.y)
+			* sunDir.y * ( 1.+map( org.xz ) );
+	}
+	if (dc.x != 0.0) {
+		float nd = max(dot(norm, sunDir), 0.0);
+		if (nd > 0.0) {
+			if (raytrace( 1, hit, sunDir, q, q, q, q ) > 0) nd = 0.0;
+		}
+		col += dc*nd*0.1;
+	}
+	return col;
+}
+
+vec3 flr( vec3 org, vec3 dir )
+{
+	vec3 q;
+	int dh = raytrace(1, org, dir, q, q, q, q);
+	if ((dh == 0) && (dir.y < 0.0)) {
+		org += -org.y / dir.y * dir;
+		dir.y = -dir.y;
+		return core( org, dir );
+	}
+	return Z;
+}
+
+void main() {
+	x[0]=0x7c0;x[1]=0x10;x[2]=0x7d0;x[3]=0x19f;x[4]=0x7c0;x[5]=0x17;
+	x[6]=0x55;x[7]=0x7dd;x[8]=0x40;x[9]=0x7;x[10]=0x7c4;x[11]=0x15f;
+	x[12]=0x680;x[13]=0x1f;x[14]=0x384;x[15]=0x45b;x[16]=0x380;
+
+	vec3 sp = Z;
+	sunDir = normalize(vec3(sin(t*0.7), 0.5, cos(t*0.3)));
+	for(int i=0; i<8; i++)
+	{
+		float r = 0.9 * float(i) + t;
+		float sr = sin(r*0.4), cr = cos(r*0.7);
+		op[i] = vec3(sr, cr+1.4, sr*cr)*(sr+1.5)*12.0;
+		os[i] = sr*3.+6.;
+		oc[i] = pow(normalize(vec3(1.+cr, 1., 1.+sr)), vec3(2.2));
+		sp += op[i];
+	}
+	vec2 s = (gl_FragCoord.xy*2.-r) / min(r.x, r.y);
+	float cr = sin(t*0.1), st = sin(cr), ct = cos(cr);
+	mat3 rmat = mat3(ct,0.,st,0.,1.,0.,-st,0.,ct);
+	vec3 org = sp/9. + rmat*vec3(0., 0., -40.);
+	vec3 ray = normalize(rmat*vec3(s, 1.));
+	vec3 col = core(org, ray) + flr(org, ray);
+	gl_FragColor = vec4(pow(col,vec3(1.0/2.2)), 1.);
 }</script>
 </body>
 </html>
