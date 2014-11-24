@@ -93,8 +93,8 @@
 					<h3>dancing sphere</h3>
 					<p><img id="image006" src="image/dancingsphere.jpg" width="250" height="250" alt=""></p>
 					<ul>
-						<li>size: 4096 bytes</li>
-						<li>source: <a href="http://goo.gl/jdHSuk" target="_blank">preview</a></li>
+						<li>size: 3935 bytes</li>
+						<li>source: <a href="http://goo.gl/xI0VoG" target="_blank">preview</a></li>
 						<li>author: <a href="https://twitter.com/yuza_ja" target="_blank">@yuza_ja</a></li>
 					</ul>
 				</div>
@@ -438,83 +438,84 @@ void main(){
 uniform vec2 r;
 uniform float t;
 
-vec3 O=vec3(1.);
-vec3 Z=vec3(0.);
-vec3 sunDir, op[8], oc[8];
-float os[8];
+#define N normalize
+#define F float
+#define V vec3
+
+V O=V(1.), Z=V(0.), sunDir, op[9], oc[9];
+F os[9];
 int x[17];
 
-int raytrace( int mode, inout vec3 org, inout vec3 dir, out vec3 hit, out vec3 norm, out vec3 col, out vec3 dc )
+int raytrace(int mode, inout V org, inout V dir, out V hit, out V norm, out V col, out V dc)
 {
 	col = O; dc = Z;
 	for(int re=0; re<3; re++) {
-		vec3 c, h, n;
 		int hi = -1;
-		float minv = 100.0;
-		for(int i=0; i<8; i++) {
-			vec3 diff = op[i] - org;
-			float b = dot(diff, dir);
-			float f = b*b + os[i]*os[i] - dot(diff, diff);
-			if (f < 0.0) continue;
-			float v = b - sqrt(f);
-			if (v < 0.0) continue;
-			if (mode>0) return 1;
-			if ((v < minv) && (org.y + dir.y * v > 0.0)) {
-				minv = v; hi = i;
-				h = org + dir * (v+0.001);
-				n = normalize( (h - op[i]) / os[i] );
-				c = oc[i];
+		V c, h, n, diff;
+		F minv = 1000.0, b, f, v;
+		for(int i=0; i<6; i++) {
+			diff = (op[i] - org);
+			b = dot(diff, dir);
+			f = max(0.0, b*b+os[i]*os[i]-dot(diff, diff));
+			v = b - sqrt(f);
+			if (v*f > 0.0) {
+				if (mode>0) return 1;
+				if ((v < minv) && (org.y + dir.y * v > 0.0)) {
+					minv = v; hi = i;
+					h = org + dir * (v+0.001);
+					n = N( (h - op[i]) / os[i] );
+					c = oc[i];
+				}
 			}
 		}
 		if (hi < 0) return 0;
 		if (re == 0) { hit = h; norm = n; dc = c; }
 		col *= c * (1.1+dot(dir,n));
-		org = h + n * 0.0001;
-		dir = normalize( reflect(dir,n) );
+		dir = N(reflect(dir,n));
+		org = h;
 	}
+	return 0;
 }
 
-float map( vec2 p )
+F map(vec2 p)
 {
-	float v=0.;
+	F v=0.;
 	int iy = int(mod(floor(p.x-1.5), 20.));
-	for(int i=0; i<17; i++) if (i==iy) { v = float(x[i]); break; }
-	return mod(floor(v*pow(0.5,mod(floor(p.y*-1.), 10.))), 2.);
+	for(int i=0; i<17; i++) if (i==iy) { v = F(x[i]); break; }
+	return mod(floor(v*pow(0.5,mod(floor((p.y+0.5)*-1.2), 12.))), 2.);
 }
 
-vec3 core( vec3 org, vec3 dir )
+V core(V org, V dir)
 {
-	vec3 hit, norm, col, dc, q;
+	V hit, norm, col, dc, q;
 	raytrace( 0, org, dir, hit, norm, col, dc );
 	if (dir.y >= 0.0) {
-		float l = max(dot(dir, sunDir), 0.0);
-		col *= vec3(pow(l, 99.9) * 50.0);
+		F l = max(dot(dir, sunDir), 0.0);
+		col *= V(pow(l, 99.9) * 50.0) + dir.y * V(0.01, 0.02, 0.03);
 	} else {
-		org += sunDir*0.001 - org.y / dir.y * dir;
-		if (raytrace( 1, org, sunDir, q, q, q, q ) > 0) col *= 0.1;
-		col *= clamp( 0.4 * mod(floor(0.1*org.x)+floor(0.1*org.z), 2.0), 0.1, -dir.y)
-			* sunDir.y * ( 1.+map( org.xz ) );
+		org -= org.y/dir.y*dir;
+		if (raytrace(1, org, sunDir, q, q, q, q) > 0) col *= 0.1;
+		float fc = mod(floor(0.05*org.x)+floor(0.1*org.z), 2.0);
+		col *= clamp(0.4*fc, 0.1, -dir.y) * sunDir.y * (1.+map(org.xz));
 	}
-	if (dc.x != 0.0) {
-		float nd = max(dot(norm, sunDir), 0.0);
-		if (nd > 0.0) {
-			if (raytrace( 1, hit, sunDir, q, q, q, q ) > 0) nd = 0.0;
-		}
+	if (dc.x > 0.0) {
+		F nd = max(dot(norm, sunDir), 0.0);
+		if (raytrace(1, hit, sunDir, q, q, q, q) > 0) nd = 0.0;
 		col += dc*nd*0.1;
 	}
 	return col;
 }
 
-vec3 flr( vec3 org, vec3 dir )
+V flr( V org, V dir )
 {
-	vec3 q;
+	V q, r = V(0.0);
 	int dh = raytrace(1, org, dir, q, q, q, q);
 	if ((dh == 0) && (dir.y < 0.0)) {
-		org += -org.y / dir.y * dir;
+		org -= org.y/dir.y*dir;
 		dir.y = -dir.y;
-		return core( org, dir );
+		r = core(org, dir);
 	}
-	return Z;
+	return r;
 }
 
 void main() {
@@ -522,24 +523,24 @@ void main() {
 	x[6]=0x55;x[7]=0x7dd;x[8]=0x40;x[9]=0x7;x[10]=0x7c4;x[11]=0x15f;
 	x[12]=0x680;x[13]=0x1f;x[14]=0x384;x[15]=0x45b;x[16]=0x380;
 
-	vec3 sp = Z;
-	sunDir = normalize(vec3(sin(t*0.7), 0.5, cos(t*0.3)));
-	for(int i=0; i<8; i++)
+	V sp = Z;
+	sunDir = N(V(sin(t*0.7), 0.5, cos(t*0.3)));
+	for(int i=0; i<6; i++)
 	{
-		float r = 0.9 * float(i) + t;
-		float sr = sin(r*0.4), cr = cos(r*0.7);
-		op[i] = vec3(sr, cr+1.4, sr*cr)*(sr+1.5)*12.0;
+		F r = 0.9 * F(i) + t;
+		F sr = sin(r*0.4), cr = cos(r*0.7);
+		op[i] = V(sr, cr+1.4, sr*cr)*(sr+1.5)*12.0;
 		os[i] = sr*3.+6.;
-		oc[i] = pow(normalize(vec3(1.+cr, 1., 1.+sr)), vec3(2.2));
+		oc[i] = pow(N(V(1.+cr, 1., 1.+sr)), V(2.2));
 		sp += op[i];
 	}
 	vec2 s = (gl_FragCoord.xy*2.-r) / min(r.x, r.y);
-	float cr = sin(t*0.1), st = sin(cr), ct = cos(cr);
+	F cr = sin(t*0.1), st = sin(cr), ct = cos(cr);
 	mat3 rmat = mat3(ct,0.,st,0.,1.,0.,-st,0.,ct);
-	vec3 org = sp/9. + rmat*vec3(0., 0., -40.);
-	vec3 ray = normalize(rmat*vec3(s, 1.));
-	vec3 col = core(org, ray) + flr(org, ray);
-	gl_FragColor = vec4(pow(col,vec3(1.0/2.2)), 1.);
+	V org = sp/9. + rmat*V(0., 0., -40.);
+	V ray = N(rmat*V(s, 1.));
+	V col = core(org, ray) + flr(org, ray);
+	gl_FragColor = vec4(pow(col,V(1.0/2.2)), 1.);
 }</script>
 </body>
 </html>

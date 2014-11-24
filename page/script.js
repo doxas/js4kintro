@@ -27,7 +27,7 @@ window.onload = function(){
 	e = document.getElementById('targetSource');
 	run = false;
 	r = Math.floor(Math.random() * entryCount);
-	if(r === 6){r = 0;}
+//	if(r === 6){r = 0;}
 	e.value = r;
 	shader(entrySource[r]);
 };
