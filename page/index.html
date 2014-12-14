@@ -312,7 +312,7 @@ void main(){
 uniform vec2 r;
 uniform float t;
 
-#define F(A,B,C,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)A=B==(C+0)?a:B==(C+1)?b:B==(C+2)?c:B==(C+3)?d:B==(C+4)?e:B==(C+5)?f:B==(C+6)?g:B==(C+7)?h:B==(C+8)?i:B==(C+9)?j:B==(C+10)?k:B==(C+11)?l:B==(C+12)?m:B==(C+13)?n:B==(C+14)?o:B==(C+15)?p:A
+#define F(A,B,C,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p) A=B>=C&&B<(C+16)?B==(C+0)?a:B==(C+1)?b:B==(C+2)?c:B==(C+3)?d:B==(C+4)?e:B==(C+5)?f:B==(C+6)?g:B==(C+7)?h:B==(C+8)?i:B==(C+9)?j:B==(C+10)?k:B==(C+11)?l:B==(C+12)?m:B==(C+13)?n:B==(C+14)?o:B==(C+15)?p:A:A
 
 #define V vec3(1.0,0.8,0.8)
 #define W vec3(0.5,0.0,0.0)
