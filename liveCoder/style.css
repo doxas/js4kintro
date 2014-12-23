@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	min-width: 1024px;
+	overflow: hidden;
+}
+
+#left {
+	background-color: #333;
+	height: 100%;
+	width: 512px;
+	position: absolute;
+}
+
+#left canvas {
+	width: 512px;
+	height: 512px;
+	background-color: #f0f0f0;
+	overflow: hidden;
+	box-shadow: 0px 0px 15px 3px black;
+}
+
+#left #console {
+	color: #999;
+	font-size: 12px;
+	padding: 10px;
+	text-shadow: 1px 1px 1px #222;
+}
+
+#left #console h3 {
+	color: #ccc;
+	margin: 20px 0px 5px;
+}
+
+#left #console p {
+	margin: 0px 10px 5px;
+}
+
+#left #console ul {
+	line-height: 30px;
+	list-style: none;
+}
+
+#left #console li {
+	min-width: 75px;
+	display: inline-block;
+}
+
+#left #console li.half {
+	min-width: 300px;
+	display: inline-block;
+}
+
+#left #console #fsCount, #left #console #htmlCount {
+	color: goldenrod;
+	font-family: 'consolas', monospace;
+	font-size: 15px;
+}
+
+#button, #shorten, #bStart, #bStop {
+	margin: 0px 5px 0px 0px;
+	padding: 0px 10px;
+}
+
+#right {
+	overflow: hidden;
+}
+
+#right #editor {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 512px;
+	right: 0;
+}
+
