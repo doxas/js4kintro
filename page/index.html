@@ -98,6 +98,15 @@
 						<li>author: <a href="https://twitter.com/yuza_ja" target="_blank">@yuza_ja</a></li>
 					</ul>
 				</div>
+				<div class="entry">
+					<h3>doraemon</h3>
+					<p><img id="image007" src="image/doraemon.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 3698 bytes</li>
+						<li>source: <a href="http://goo.gl/9fdm59" target="_blank">preview</a></li>
+						<li>author: <a href="https://twitter.com/naotaro0123" target="_blank">@naotaro0123</a></li>
+					</ul>
+				</div>
 				<h2>share</h2>
 				<div id="social">
 					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jp.wgld.org/js4kintro/" data-hashtags="js4kintro">Tweet</a>
@@ -542,5 +551,14 @@ void main() {
 	V col = core(org, ray) + flr(org, ray);
 	gl_FragColor = vec4(pow(col,V(1.0/2.2)), 1.);
 }</script>
+	<script id="007" type="x-shader/x-fragment">precision mediump float;uniform float t;uniform vec2 r;
+#define wh vec3(1.0)
+#define bl vec3(0.0)
+#define re vec3(1.0, 0.0, 0.0)
+#define or vec3(0.8, 0.2, 0.0)
+#define be vec3(0.2, 0.5, 1.0)
+void ci(vec2 p, vec2 of, float si, vec3 cl, inout vec3 i){float l=length(p - of);if(l < si){i=cl;}}void rect(vec2 p, vec2 of, float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / si;if(abs(q.x) < 1.0 && abs(q.y) < 1.0){i=cl;}}void ell(vec2 p, vec2 of, vec2 prop, float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / prop;if(length(q) < si){i=cl;}}void li(vec2 p, vec2 of, vec2 v,float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / si;if(abs(q.x) < v.x && abs(q.y)< v.y){i=cl;}}void sl(bool flg, vec2 p, vec2 of, vec2 v,float si, vec3 cl, inout vec3 i){float s=sin(0.15);float c=cos(sin(2.0));vec2 q;if(flg==true){q=((p * mat2(c, -s, s, c)) - of) / si;}else{q=((p * mat2(-c, -s, -s, c)) - of) / si;}if(abs(q.x) < v.x && abs(q.y)< v.y){i=cl;}}void main(void){vec3 dCol=wh;vec2 p=(gl_FragCoord.xy * 2.0 - r) / min(r.x, r.y);ci (p, vec2( 0.0, 0.0), 0.81, bl, dCol);ci (p, vec2( 0.0, 0.0), 0.8, be, dCol);ci (p, vec2( -0.0, -0.15), 0.66, bl, dCol);ci (p, vec2( -0.0, -0.15), 0.65, wh, dCol);ell(p, vec2(0.19, 0.43), vec2(0.65, 0.7), 0.31, bl, dCol);ell(p, vec2(-0.19, 0.43), vec2(0.65, 0.7), 0.31, bl, dCol);ell(p, vec2(0.19, 0.43), vec2(0.65, 0.7), 0.3, wh, dCol);ell(p, vec2(-0.19, 0.43), vec2(0.65, 0.7), 0.3, wh, dCol);ell(p, vec2(0.18, 0.42), vec2(0.4, 0.7), 0.15, bl, dCol);ell(p, vec2(-0.18, 0.42), vec2(0.4, 0.7), 0.15, bl, dCol);ell(p, vec2(0.2, 0.45), vec2(0.4, 0.7), 0.05, wh, dCol);ell(p, vec2(-0.16, 0.45), vec2(0.4, 0.7), 0.05, wh, dCol);ci (p, vec2( 0.0, 0.2), 0.12, bl, dCol);ci (p, vec2( 0.0, 0.2), 0.11, re, dCol);rect (p, vec2( 0.04, 0.23), 0.02, wh, dCol);li (p, vec2( 0.0, -0.12), vec2(0.01, 1.0), 0.2, bl, dCol);ell(p, vec2(-0.0, -0.45), vec2(0.8, 0.4), 0.51, bl, dCol);ell(p, vec2(-0.0, -0.45), vec2(0.8, 0.4), 0.5, or, dCol);ell(p, vec2(-0.0, -0.55), vec2(0.9, 0.3), 0.35, bl, dCol);ell(p, vec2(-0.0, -0.55), vec2(0.9, 0.3), 0.34, re, dCol);li(p, vec2( 0.5, 0.0), vec2(0.9, 0.03), 0.2, bl, dCol);li(p, vec2(-0.5, 0.0), vec2(0.9, 0.03), 0.2, bl, dCol);sl(true,p, vec2( 0.34, -0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(true,p, vec2(-0.34, 0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(false,p, vec2( 0.34, -0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(false,p, vec2(-0.34, 0.05), vec2(0.9, 0.03), 0.14, bl, dCol);gl_FragColor=vec4(dCol, 1.0);}</script>
+	<script id="008" type="x-shader/x-fragment">
+</script>
 </body>
 </html>
