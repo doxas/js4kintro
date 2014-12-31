@@ -107,6 +107,33 @@
 						<li>author: <a href="https://twitter.com/naotaro0123" target="_blank">@naotaro0123</a></li>
 					</ul>
 				</div>
+				<div class="entry">
+					<h3>Mario and Luigi</h3>
+					<p><img id="image008" src="image/marioandluigi.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 2795 bytes</li>
+						<li>source: <a href="http://goo.gl/EqZHCX" target="_blank">preview</a></li>
+						<li>author: <a href="https://twitter.com/cx20" target="_blank">@cx20</a></li>
+					</ul>
+				</div>
+				<div class="entry">
+					<h3>Volume</h3>
+					<p><img id="image009" src="image/volume.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 2371 bytes</li>
+						<li>source: <a href="http://goo.gl/vWUrfK" target="_blank">preview</a></li>
+						<li>author: <a href="https://twitter.com/FMS_Cat" target="_blank">@FMS_Cat</a></li>
+					</ul>
+				</div>
+				<div class="entry">
+					<h3>eclipse</h3>
+					<p><img id="image010" src="image/eclipse.jpg" width="250" height="250" alt=""></p>
+					<ul>
+						<li>size: 3062 bytes</li>
+						<li>source: <a href="http://goo.gl/8UY7D0" target="_blank">preview</a></li>
+						<li>author: <a href="https://twitter.com/h_doxas" target="_blank">@h_doxas</a></li>
+					</ul>
+				</div>
 				<h2>share</h2>
 				<div id="social">
 					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jp.wgld.org/js4kintro/" data-hashtags="js4kintro">Tweet</a>
@@ -558,7 +585,179 @@ void main() {
 #define or vec3(0.8, 0.2, 0.0)
 #define be vec3(0.2, 0.5, 1.0)
 void ci(vec2 p, vec2 of, float si, vec3 cl, inout vec3 i){float l=length(p - of);if(l < si){i=cl;}}void rect(vec2 p, vec2 of, float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / si;if(abs(q.x) < 1.0 && abs(q.y) < 1.0){i=cl;}}void ell(vec2 p, vec2 of, vec2 prop, float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / prop;if(length(q) < si){i=cl;}}void li(vec2 p, vec2 of, vec2 v,float si, vec3 cl, inout vec3 i){vec2 q=(p - of) / si;if(abs(q.x) < v.x && abs(q.y)< v.y){i=cl;}}void sl(bool flg, vec2 p, vec2 of, vec2 v,float si, vec3 cl, inout vec3 i){float s=sin(0.15);float c=cos(sin(2.0));vec2 q;if(flg==true){q=((p * mat2(c, -s, s, c)) - of) / si;}else{q=((p * mat2(-c, -s, -s, c)) - of) / si;}if(abs(q.x) < v.x && abs(q.y)< v.y){i=cl;}}void main(void){vec3 dCol=wh;vec2 p=(gl_FragCoord.xy * 2.0 - r) / min(r.x, r.y);ci (p, vec2( 0.0, 0.0), 0.81, bl, dCol);ci (p, vec2( 0.0, 0.0), 0.8, be, dCol);ci (p, vec2( -0.0, -0.15), 0.66, bl, dCol);ci (p, vec2( -0.0, -0.15), 0.65, wh, dCol);ell(p, vec2(0.19, 0.43), vec2(0.65, 0.7), 0.31, bl, dCol);ell(p, vec2(-0.19, 0.43), vec2(0.65, 0.7), 0.31, bl, dCol);ell(p, vec2(0.19, 0.43), vec2(0.65, 0.7), 0.3, wh, dCol);ell(p, vec2(-0.19, 0.43), vec2(0.65, 0.7), 0.3, wh, dCol);ell(p, vec2(0.18, 0.42), vec2(0.4, 0.7), 0.15, bl, dCol);ell(p, vec2(-0.18, 0.42), vec2(0.4, 0.7), 0.15, bl, dCol);ell(p, vec2(0.2, 0.45), vec2(0.4, 0.7), 0.05, wh, dCol);ell(p, vec2(-0.16, 0.45), vec2(0.4, 0.7), 0.05, wh, dCol);ci (p, vec2( 0.0, 0.2), 0.12, bl, dCol);ci (p, vec2( 0.0, 0.2), 0.11, re, dCol);rect (p, vec2( 0.04, 0.23), 0.02, wh, dCol);li (p, vec2( 0.0, -0.12), vec2(0.01, 1.0), 0.2, bl, dCol);ell(p, vec2(-0.0, -0.45), vec2(0.8, 0.4), 0.51, bl, dCol);ell(p, vec2(-0.0, -0.45), vec2(0.8, 0.4), 0.5, or, dCol);ell(p, vec2(-0.0, -0.55), vec2(0.9, 0.3), 0.35, bl, dCol);ell(p, vec2(-0.0, -0.55), vec2(0.9, 0.3), 0.34, re, dCol);li(p, vec2( 0.5, 0.0), vec2(0.9, 0.03), 0.2, bl, dCol);li(p, vec2(-0.5, 0.0), vec2(0.9, 0.03), 0.2, bl, dCol);sl(true,p, vec2( 0.34, -0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(true,p, vec2(-0.34, 0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(false,p, vec2( 0.34, -0.05), vec2(0.9, 0.03), 0.14, bl, dCol);sl(false,p, vec2(-0.34, 0.05), vec2(0.9, 0.03), 0.14, bl, dCol);gl_FragColor=vec4(dCol, 1.0);}</script>
-	<script id="008" type="x-shader/x-fragment">
-</script>
+	<script id="008" type="x-shader/x-fragment">precision mediump float;
+uniform vec2 r;
+uniform float t;
+
+#define F(A,B,C,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p) A=B>=C&&B<(C+16)?B==(C+0)?a:B==(C+1)?b:B==(C+2)?c:B==(C+3)?d:B==(C+4)?e:B==(C+5)?f:B==(C+6)?g:B==(C+7)?h:B==(C+8)?i:B==(C+9)?j:B==(C+10)?k:B==(C+11)?l:B==(C+12)?m:B==(C+13)?n:B==(C+14)?o:B==(C+15)?p:A:A
+
+#define U vec3(0.0,1.0,0.0)
+#define V vec3(1.0,0.8,0.8)
+#define W vec3(0.5,0.0,0.0)
+#define X vec3(1.0,0.0,0.0)
+#define Y vec3(1.0,1.0,0.0)
+#define Z vec3(0.0,0.0,1.0)
+#define _ vec3(0.)
+
+void main() {
+	vec2 p = gl_FragCoord.xy/r.xy;
+	p = mod(p * 8.0 * mat2(sin(t)+0.5, cos(t)+0.5, -cos(t)-0.5, sin(t)-0.5), 1.0);
+	vec3 m = vec3(0.0);
+	float x = floor(p.x * 16.0);
+	float y = floor((1.0 - p.y) * 16.0);
+	int i = int(x + y * 16.0);
+	
+	F(m,i,  0,_,_,_,_,_,_,_,_,_,_,_,_,_,V,V,V);
+	F(m,i, 16,_,_,_,_,_,_,X,X,X,X,X,_,_,V,V,V);
+	F(m,i, 32,_,_,_,_,_,X,X,X,X,X,X,X,X,X,V,V);
+	F(m,i, 48,_,_,_,_,_,W,W,W,V,V,W,V,_,X,X,X);
+	F(m,i, 64,_,_,_,_,W,V,W,V,V,V,W,V,V,X,X,X);
+	F(m,i, 80,_,_,_,_,W,V,W,W,V,V,V,W,V,V,V,X);
+	F(m,i, 96,_,_,_,_,W,W,V,V,V,V,W,W,W,W,X,_);
+	F(m,i,112,_,_,_,_,_,_,V,V,V,V,V,V,V,X,_,_);
+	F(m,i,128,_,_,X,X,X,X,X,Z,X,X,X,Z,X,_,_,_);
+	F(m,i,144,_,X,X,X,X,X,X,X,Z,X,X,X,Z,_,_,W);
+	F(m,i,160,V,V,X,X,X,X,X,X,Z,Z,Z,Z,Z,_,_,W);
+	F(m,i,176,V,V,V,_,Z,Z,X,Z,Z,Y,Z,Z,Y,Z,W,W);
+	F(m,i,192,_,V,_,W,Z,Z,Z,Z,Z,Z,Z,Z,Z,Z,W,W);
+	F(m,i,208,_,_,W,W,W,Z,Z,Z,Z,Z,Z,Z,Z,Z,W,W);
+	F(m,i,224,_,W,W,W,Z,Z,Z,Z,Z,Z,Z,_,_,_,_,_);
+	F(m,i,240,_,W,_,_,Z,Z,Z,Z,_,_,_,_,_,_,_,_);
+	
+	if (cos(t*0.5) > 0.0 && m == X) m = U;
+
+	gl_FragColor = vec4(m, 1.0);
+}</script>
+	<script id="009" type="x-shader/x-fragment">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform float t;
+uniform vec2 r;
+
+#define F float
+#define D vec2
+#define T vec3
+#define R return
+
+D v=D(0,1);
+F X=t*.04;
+F L(F i){R clamp(i,0.,1.);}
+
+F B(D a,D b)
+{
+	D d=abs(a)-b;
+	R min(max(d.x,d.y),0.)+length(max(d,0.));
+}
+
+F C(T a,D b)
+{
+	R min(B(a.xy,b),min(B(a.yz,b),B(a.zx,b)));
+}
+
+F f(T a)
+{
+	F b=0.;
+	for(F c=0.;c<7.;c+=1.)
+	{
+		F H=c*(X*.04);
+		a.xy=mat2(cos(H),-sin(H),sin(H),cos(H))*a.xy;
+		F W=pow(1.6,c*.7);
+		b=max(b,-C(mod(a+.15/W,.6/W)-.15/W,D(.1/W)));
+	}
+	R b;
+}
+
+T g(T a,F b)
+{
+	D d=v*b;
+	R normalize(T(
+		f(a+d.yxx)-f(a-d.yxx),
+		f(a+d.xyx)-f(a-d.xyx),
+		f(a+d.xxy)-f(a-d.xxy)
+	));
+}
+
+void main()
+{
+	D u=(gl_FragCoord.xy*2.-r)/r.x;
+	T P=T(sin(-X),cos(X),0.)*-.35+v.yyx*.3,
+		j=normalize(v.yxx-P),
+		S=cross(j,v.xyx),
+		U=cross(S,j),
+		w=normalize(S*u.x+U*u.y+j),
+		p=P;
+
+	F d=0.,l=0.;
+	for(int i=0;i<99;i++){
+		d=f(p);
+		l+=d;
+		p=P+w*l;
+	}
+
+	d=pow(l*.9,3.);
+	gl_FragColor=vec4((dot(-w,g(p,1E-4))*max(1.-d*.2,0.)+L(d*.2))*((d+L((1.-dot(g(p,1E-4),g(p,7E-4)))*8.)*pow(.7,mod(X*20.,9.)))*T(.2,.3,.6)+T(.1))*(1.-pow(1E-7,X*.1))*(1.3-length(u)*.7),1.);
+}</script>
+	<script id="010" type="x-shader/x-fragment">precision mediump float;
+uniform float t; // time
+uniform vec2  r; // resolution
+
+#define oct 7
+#define per 0.45
+#define PI  3.14159
+const vec3 flameColor = vec3(1.0, 0.25, 0.0);
+const float cCorners = 1.0 / 16.0;
+const float cSides   = 1.0 / 8.0;
+const float cCenter  = 1.0 / 4.0;
+
+float interp(float a, float b, float x){
+	float f = (1.0 - cos(x * PI)) * 0.5;
+	return a * (1.0 - f) + b * f;
+}
+
+float rnd(vec2 p){return fract(sin(dot(p ,vec2(12.9898,78.233))) * 43758.5453);}
+
+float irnd(vec2 p){
+	vec2 i = vec2(floor(p.x), floor(p.y));
+	vec2 f = vec2(fract(p.x), fract(p.y));
+	vec4 v = vec4(rnd(vec2(i.x,       i.y      )),
+				  rnd(vec2(i.x + 1.0, i.y      )),
+				  rnd(vec2(i.x,       i.y + 1.0)),
+				  rnd(vec2(i.x + 1.0, i.y + 1.0)));
+	return interp(interp(v.x, v.y, f.x), interp(v.z, v.w, f.x), f.y);
+}
+
+float noise(vec2 p){
+	float t = 0.0;
+	for(int i = 0; i < oct; i++){
+		float freq = pow(2.0, float(i));
+		float amp  = pow(per, float(oct - i));
+		t += irnd(vec2(p.x / freq, p.y / freq)) * amp;
+	}
+	return t;
+}
+
+float snoise(vec2 p, vec2 w){
+	vec2 q = p / w;
+    return noise(vec2(p.x,       p.y      )) *        q.x  *        q.y  +
+           noise(vec2(p.x,       p.y + w.y)) *        q.x  * (1.0 - q.y) +
+           noise(vec2(p.x + w.x, p.y      )) * (1.0 - q.x) *        q.y  +
+           noise(vec2(p.x + w.x, p.y + w.y)) * (1.0 - q.x) * (1.0 - q.y);
+}
+
+vec2 polar(vec2 p){return vec2(atan(p.y, p.x) / PI, length(p));}
+
+void main(void){
+	vec2 p = gl_FragCoord.xy * 2.0 - r;
+	vec2 q = p / max(r.x, r.y);
+	float v = max(0.025 / (length(q) - 0.5), 0.0);
+	float w = 0.001 / abs(0.5 - length(q));
+	vec2 pc = polar(p);
+	float pl = length(r);
+	float px = abs(pc.x) * pl;
+	float py = pc.y - t * 150.0;
+	float n = noise(vec2(px, py));
+	gl_FragColor = vec4(flameColor * vec3((v + w) * n), 1.0);
+}</script>
 </body>
 </html>
