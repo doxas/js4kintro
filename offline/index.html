@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<script type="text/javascript" src="script.js"></script>
 	<script src="src-noconflict/ace.js" type="text/javascript"></script>
-	<title>js4k intro - GLSL editor</title>
+	<title>GLSL editor offline</title>
 </head>
 <body>
 	<div id="left">
@@ -17,13 +17,8 @@
 				<li><span id="fsCount">685</span></li>
 				<li>HTML全体の文字数:</li>
 				<li><span id="htmlCount">1941</span></li>
-				<li><input id="button" type="button" value="download" disabled></li>
 			</ul>
 			<ul>
-				<li class="half">
-					<input id="shorten" type="button" value="shorten" disabled>
-					<input id="uri" type="text" value="" readonly>
-				</li>
 				<li>
 					<input id="bStart" type="button" value="run">
 					<input id="bStop" type="button" value="stop">
@@ -32,14 +27,12 @@
 			<h3>操作</h3>
 			<p>Ctr + s || Command + s ： リロード(エディタにフォーカス中)</p>
 			<p>Esc ： アニメーションの停止</p>
-			<h3>ダウンロード</h3>
-			<p>ダウンロードボタンから HTML ファイルをダウンロードできます。文法チェックはしてません。</p>
 		</div>
 	</div>
 	<div id="right">
 <pre id="editor">precision mediump float;
-uniform float t; // time
-uniform vec2  r; // resolution
+uniform float time;
+uniform vec2  resolution;
 
 vec3 hsv(float h, float s, float v){
 	vec4 t = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
@@ -48,17 +41,17 @@ vec3 hsv(float h, float s, float v){
 }
 
 void main(void){
-	vec2 p = (gl_FragCoord.xy * 2.0 - r) / min(r.x, r.y);
+	vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
 	int j = 0;
 	vec2 x = vec2(-0.345, 0.654);
-	vec2 y = vec2(t * 0.005, 0.0);
+	vec2 y = vec2(time * 0.005, 0.0);
 	vec2 z = p;
 	for(int i = 0; i < 360; i++){
 		j++;
 		if(length(z) > 2.0){break;}
 		z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + x + y;
 	}
-	float h = abs(mod(t * 15.0 - float(j), 360.0) / 360.0);
+	float h = abs(mod(time * 15.0 - float(j), 360.0) / 360.0);
 	gl_FragColor = vec4(hsv(h, 1.0, 1.0), 1.0);
 }
 </pre>
