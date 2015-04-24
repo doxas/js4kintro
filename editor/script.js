@@ -131,16 +131,13 @@ function render(){
 	uni.mouse = gl.getUniformLocation(prg, 'm');
 	uni.time = gl.getUniformLocation(prg, 't');
 	uni.resolution = gl.getUniformLocation(prg, 'r');
-	uni.sampler = gl.getUniformLocation(prg, 's');
+	uni.sampler = gl.getUniformLocation(prg, 'smp');
 	a = gl.getAttribLocation(prg, 'p');
-	gl.uniform2fv(uni.resolution, [512, 512]);
-	gl.uniform1i(uni.sampler, 0);
 
 	gl.useProgram(tPrg);
 	tUni = {};
 	tUni.texture = gl.getUniformLocation(tPrg, 'texture');
 	b = gl.getAttribLocation(tPrg, 'position');
-	gl.uniform1i(tUni.texture, 0);
 
 	fFront = create_framebuffer(canvas.width, canvas.height);
 	fBack  = create_framebuffer(canvas.width, canvas.height);
@@ -156,9 +153,11 @@ function render(){
 		gl.bindTexture(gl.TEXTURE_2D, fBack.t);
 		gl.enableVertexAttribArray(a);
 		gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 0, 0);
-		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 		gl.uniform2fv(uni.mouse, mousePosition);
 		gl.uniform1f(uni.time, d);
+		gl.uniform2fv(uni.resolution, [512, 512]);
+		gl.uniform1i(uni.sampler, 0);
 		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
 		gl.useProgram(tPrg);
@@ -166,7 +165,8 @@ function render(){
 		gl.bindTexture(gl.TEXTURE_2D, fFront.t);
 		gl.enableVertexAttribArray(b);
 		gl.vertexAttribPointer(b, 3, gl.FLOAT, false, 0, 0);
-		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		gl.uniform1i(tUni.texture, 0);
 		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
 		gl.flush();
@@ -189,8 +189,8 @@ function create_framebuffer(width, height){
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
 	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fTexture, 0);
 	gl.bindTexture(gl.TEXTURE_2D, null);
 	gl.bindRenderbuffer(gl.RENDERBUFFER, null);
