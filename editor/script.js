@@ -1,4 +1,5 @@
-var ax, run, canvas, gl, prg, uni, win, editor;
+var ax, run, canvas, gl, prg, uni, win, editor, mousePosition, fFront, fBack, fTemp;
+var tPrg, tUni;
 
 window.onload = function(){
 	editor = ace.edit("editor");
@@ -84,23 +85,31 @@ function init(){
 	if(!gl){gl = canvas.getContext('webgl');}
 	canvas.width = 512;
 	canvas.height = 512;
+	canvas.addEventListener('mousemove', mouseMove, true);
+	mousePosition = [0.0, 0.0];
 	prg = gl.createProgram();
 	var vSource = 'attribute vec3 p;void main(){gl_Position=vec4(p,1.);}';
 	var fSource = editor.getValue().replace(/\r/gi, '');
 	var encoded = encodeURIComponent(fSource);
 	window.location.hash = encoded;
-	if(!shader(0, vSource) && !shader(1, fSource)){
+	if(!shader(prg, 0, vSource) && !shader(prg, 1, fSource)){
 		gl.linkProgram(prg);
 	}else{
 		return;
 	}
 	e = gl.getProgramParameter(prg, gl.LINK_STATUS);
 	if(!e){alert(gl.getProgramInfoLog(prg));return;}
-	gl.useProgram(prg);
+
+	tPrg = gl.createProgram();
+	vSource = bid('vs').textContent;
+	fSource = bid('fs').textContent;
+	shader(tPrg, 0, vSource); shader(tPrg, 1, fSource);
+	gl.linkProgram(tPrg);
+
 	bid('button').disabled = false;
 	bid('shorten').disabled = false;
 	setTimeout(function(){run = true; render();}, 100);
-	function shader(i, j){
+	function shader(p, i, j){
 		k = gl.createShader(gl.VERTEX_SHADER - i);
 		gl.shaderSource(k, j);
 		gl.compileShader(k);
@@ -108,34 +117,93 @@ function init(){
 			alert(gl.getShaderInfoLog(k));
 			return;
 		}
-		gl.attachShader(prg, k);
+		gl.attachShader(p, k);
 		return gl.getShaderInfoLog(k);
 	}
 }
 
 function render(){
-	var a, d, z;
-	uni = {};
-	uni.time = gl.getUniformLocation(prg, 't');
-	uni.resolution = gl.getUniformLocation(prg, 'r');
+	var a, b, d, z;
 	gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,1,0,-1,-1,0,1,1,0,1,-1,0]), gl.STATIC_DRAW);
+	gl.useProgram(prg);
+	uni = {};
+	uni.mouse = gl.getUniformLocation(prg, 'm');
+	uni.time = gl.getUniformLocation(prg, 't');
+	uni.resolution = gl.getUniformLocation(prg, 'r');
+	uni.sampler = gl.getUniformLocation(prg, 's');
 	a = gl.getAttribLocation(prg, 'p');
-	gl.enableVertexAttribArray(a);
-	gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 0, 0);
+	gl.uniform2fv(uni.resolution, [512, 512]);
+	gl.uniform1i(uni.sampler, 0);
+
+	gl.useProgram(tPrg);
+	tUni = {};
+	tUni.texture = gl.getUniformLocation(tPrg, 'texture');
+	b = gl.getAttribLocation(tPrg, 'position');
+	gl.uniform1i(tUni.texture, 0);
+
+	fFront = create_framebuffer(canvas.width, canvas.height);
+	fBack  = create_framebuffer(canvas.width, canvas.height);
+	gl.activeTexture(gl.TEXTURE0);
 	gl.clearColor(0, 0, 0, 1);
 	gl.viewport(0, 0, 512, 512);
 	z = new Date().getTime();
 	(function(){
 		if(!run){return;}
 		d = (new Date().getTime() - z) * 0.001;
+		gl.useProgram(prg);
+		gl.bindFramebuffer(gl.FRAMEBUFFER, fFront.f);
+		gl.bindTexture(gl.TEXTURE_2D, fBack.t);
+		gl.enableVertexAttribArray(a);
+		gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 0, 0);
 		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.uniform2fv(uni.mouse, mousePosition);
 		gl.uniform1f(uni.time, d);
-		gl.uniform2fv(uni.resolution, [512, 512]);
 		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+		gl.useProgram(tPrg);
+		gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+		gl.bindTexture(gl.TEXTURE_2D, fFront.t);
+		gl.enableVertexAttribArray(b);
+		gl.vertexAttribPointer(b, 3, gl.FLOAT, false, 0, 0);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
 		gl.flush();
+		fTemp = fFront;
+		fFront = fBack;
+		fBack = fTemp;
 		requestAnimationFrame(arguments.callee);
 	})();
+}
+
+function create_framebuffer(width, height){
+	var frameBuffer = gl.createFramebuffer();
+	gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
+	var depthRenderBuffer = gl.createRenderbuffer();
+	gl.bindRenderbuffer(gl.RENDERBUFFER, depthRenderBuffer);
+	gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height);
+	gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthRenderBuffer);
+	var fTexture = gl.createTexture();
+	gl.bindTexture(gl.TEXTURE_2D, fTexture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fTexture, 0);
+	gl.bindTexture(gl.TEXTURE_2D, null);
+	gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+	return {f : frameBuffer, d : depthRenderBuffer, t : fTexture};
+}
+
+function mouseMove(eve){
+	var i = 1 / 512;
+	mousePosition = [
+		(eve.clientX - canvas.offsetLeft) * i * 2.0 - 1.0,
+		1.0 - (eve.clientY - canvas.offsetTop) * i * 2.0
+	];
 }
 
 function keydown(eve){run = (eve.keyCode !== 27);}

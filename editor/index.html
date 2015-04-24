@@ -6,7 +6,27 @@
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<script type="text/javascript" src="script.js"></script>
 	<script src="src-noconflict/ace.js" type="text/javascript"></script>
-	<title>js4k intro - GLSL editor</title>
+	<script id="vs" type="x-shader/x-vertex">
+attribute vec3 position;
+varying   vec2 vTexCoord;
+
+void main(){
+	vTexCoord   = (position + 1.0).xy / 2.0;
+	gl_Position = vec4(position, 1.0);
+}
+		</script>
+		
+		<script id="fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform sampler2D texture;
+varying vec2      vTexCoord;
+
+void main(){
+	gl_FragColor = texture2D(texture, vTexCoord);
+}
+		</script>
+		<title>js4k intro - GLSL editor</title>
 </head>
 <body>
 	<div id="left">
@@ -38,8 +58,10 @@
 	</div>
 	<div id="right">
 <pre id="editor">precision mediump float;
-uniform float t; // time
-uniform vec2  r; // resolution
+uniform vec2  m;     // mouse
+uniform float t;     // time
+uniform vec2  r;     // resolution
+uniform sampler2D s; // prev scene
 
 vec3 hsv(float h, float s, float v){
 	vec4 t = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
