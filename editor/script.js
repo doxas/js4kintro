@@ -15,7 +15,7 @@ window.onload = function(){
 		bid('htmlCount').textContent = editor.getValue().length + 1256;
 	});
 	editor.getSession().setUseSoftTabs(false);
-	bid('editor').style.fontSize = '14px';
+	bid('editor').style.fontSize = '12px';
 	setEditorSource();
 	ax = new Ajax(function(){
 		var r = ax.getResponse();
@@ -45,7 +45,7 @@ window.onload = function(){
 	win = window;
 	win.addEventListener('keydown', keydown, true);
 	win.addEventListener('hashchange', setEditorSource, true);
-	setTimeout(function(){editor.focus();}, 1500);
+	setTimeout(function(){editor.focus();}, 1000);
 };
 
 function setShortenUri(uri){
