@@ -45,6 +45,7 @@ window.onload = function(){
 	win = window;
 	win.addEventListener('keydown', keydown, true);
 	win.addEventListener('hashchange', setEditorSource, true);
+	setTimeout(function(){editor.focus();}, 1500);
 };
 
 function setShortenUri(uri){
@@ -83,8 +84,8 @@ function init(){
 	bid('uri').value = "";
 	if(!canvas){canvas = bid('canvas');}
 	if(!gl){gl = canvas.getContext('webgl');}
-	canvas.width = 512;
-	canvas.height = 512;
+	canvas.width = canvas.width;
+	canvas.height = canvas.width;
 	canvas.addEventListener('mousemove', mouseMove, true);
 	mousePosition = [0.0, 0.0];
 	prg = gl.createProgram();
@@ -143,7 +144,7 @@ function render(){
 	fBack  = create_framebuffer(canvas.width, canvas.height);
 	gl.activeTexture(gl.TEXTURE0);
 	gl.clearColor(0, 0, 0, 1);
-	gl.viewport(0, 0, 512, 512);
+	gl.viewport(0, 0, canvas.width, canvas.width);
 	z = new Date().getTime();
 	(function(){
 		if(!run){return;}
@@ -156,7 +157,7 @@ function render(){
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 		gl.uniform2fv(uni.mouse, mousePosition);
 		gl.uniform1f(uni.time, d);
-		gl.uniform2fv(uni.resolution, [512, 512]);
+		gl.uniform2fv(uni.resolution, [canvas.width, canvas.width]);
 		gl.uniform1i(uni.sampler, 0);
 		gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
@@ -199,7 +200,7 @@ function create_framebuffer(width, height){
 }
 
 function mouseMove(eve){
-	var i = 1 / 512;
+	var i = 1 / canvas.width;
 	mousePosition = [
 		(eve.clientX - canvas.offsetLeft) * i * 2.0 - 1.0,
 		1.0 - (eve.clientY - canvas.offsetTop) * i * 2.0
