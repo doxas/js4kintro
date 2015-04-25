@@ -84,8 +84,8 @@ function init(){
 	bid('uri').value = "";
 	if(!canvas){canvas = bid('canvas');}
 	if(!gl){gl = canvas.getContext('webgl');}
-	canvas.width = canvas.width;
-	canvas.height = canvas.width;
+	canvas.width = 512;
+	canvas.height = 512;
 	canvas.addEventListener('mousemove', mouseMove, true);
 	mousePosition = [0.0, 0.0];
 	prg = gl.createProgram();
