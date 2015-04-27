@@ -1,4 +1,5 @@
-var ax, run, canvas, gl, prg, uni, win, editor, mousePosition, fFront, fBack, fTemp;
+var ax, run, canvas, gl, prg, uni, win, editor;
+var mousePosition, pMousePosition, fFront, fBack, fTemp;
 var tPrg, tUni;
 
 window.onload = function(){
@@ -88,6 +89,7 @@ function init(){
 	canvas.height = 512;
 	canvas.addEventListener('mousemove', mouseMove, true);
 	mousePosition = [0.0, 0.0];
+	pMousePosition = [0.0, 0.0];
 	prg = gl.createProgram();
 	var vSource = 'attribute vec3 p;void main(){gl_Position=vec4(p,1.);}';
 	var fSource = editor.getValue().replace(/\r/gi, '');
@@ -130,6 +132,7 @@ function render(){
 	gl.useProgram(prg);
 	uni = {};
 	uni.mouse = gl.getUniformLocation(prg, 'm');
+	uni.prevMouse = gl.getUniformLocation(prg, 'o');
 	uni.time = gl.getUniformLocation(prg, 't');
 	uni.resolution = gl.getUniformLocation(prg, 'r');
 	uni.sampler = gl.getUniformLocation(prg, 'smp');
@@ -156,6 +159,7 @@ function render(){
 		gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 0, 0);
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 		gl.uniform2fv(uni.mouse, mousePosition);
+		gl.uniform2fv(uni.prevMouse, pMousePosition);
 		gl.uniform1f(uni.time, d);
 		gl.uniform2fv(uni.resolution, [canvas.width, canvas.width]);
 		gl.uniform1i(uni.sampler, 0);
@@ -201,6 +205,8 @@ function create_framebuffer(width, height){
 
 function mouseMove(eve){
 	var i = 1 / canvas.width;
+	pMousePosition[0] = mousePosition[0];
+	pMousePosition[1] = mousePosition[1];
 	mousePosition = [
 		(eve.clientX - canvas.offsetLeft) * i * 2.0 - 1.0,
 		1.0 - (eve.clientY - canvas.offsetTop) * i * 2.0
